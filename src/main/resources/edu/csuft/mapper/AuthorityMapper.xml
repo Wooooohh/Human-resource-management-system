@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.csuft.mapper.AuthorityMapper">
+
+    <select id="seekAuthorityId" resultType="int">
+        select id from Authority where `leave` = #{leave}  and `dimission`=#{dimission} ;
+    </select>
+
+    <select id="getDimissionAuthority" resultType="int">
+        select dimission from Employee as e,Authority as a where e.id=#{eid} and e.a_id = a.id;
+    </select>
+
+    <select id="getLeaveAuthority" resultType="int">
+        select `leave` from Authority  where id=(select a_id from Employee where id=#{eid}  );
+    </select>
+</mapper>

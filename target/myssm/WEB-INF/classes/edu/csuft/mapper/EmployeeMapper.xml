@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.csuft.mapper.EmployeeMapper">
+    <select id="findAllEmployee" resultType="edu.csuft.pojo.Employee">
+        select * from Employee limit #{limit}  offset #{offset};
+    </select>
+
+    <select id="exist" resultType="edu.csuft.pojo.Employee">
+        select * from Employee where id=#{id}  and password=#{password};
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(*) from Employee;
+    </select>
+
+    <select id="get" resultType="edu.csuft.pojo.Employee">
+        select * from Employee where id=#{id};
+    </select>
+
+    <update id="update">
+        update Employee set name=#{name},password=#{password},email=#{email} ,phone=#{phone} ,address=#{address} ,marriage=#{marriage},sex=#{sex} ,hobbies=#{hobbies}   WHERE id=#{id} ;
+    </update>
+
+    <select id="getEmployeesInfo" resultType="edu.csuft.pojo.Employee">
+        select e.id,e.name,password,phone,sex,e.address,marriage,birthday,hireday,education,email,status,hobbies,de.id as departmentid,de.name as departmentname,d.name as dutyname,d.id as dutyid
+        from Employee as e
+        left join Department as de on e.e_de_Id=de.id
+        left join Duty as d on e.e_d_id=d.id
+        limit #{limit}  offset #{offset};
+    </select>
+
+    <select id="getMaxId" resultType="int">
+        select max(id) from Employee;
+    </select>
+
+    <insert id="createEmployee" >
+        insert into Employee(id,name,phone,sex,address,marriage,email,hireday,birthday,education,e_de_id,e_d_id,a_id) values (#{id} ,#{name}  ,#{phone} ,#{sex} ,#{address} ,#{marriage} ,#{email} ,#{hiredate},#{birthday},#{education} ,#{e_d_id} ,#{e_du_id} ,#{e_a_id}  );
+    </insert>
+
+    <delete id="deleteEmployee" >
+        delete from Employee where id=#{id};
+    </delete>
+
+    <insert id="addDimission">
+        insert into Dimission(eid,reason) values(#{id},#{reason});
+    </insert>
+
+    <insert id="addLeave">
+        insert into Holiday(eid,leaveday,returnday,reason) values (#{id} ,#{leavedate} ,#{returndate} ,#{reason} );
+    </insert>
+
+    <select id="isDimission" resultType="edu.csuft.pojo.Dimission" >
+        select * where eid=#{id};
+    </select>
+
+    <select id="getDepartmentByID" resultType="String">
+        select d.name from Employee as e,Department as d where e_de_id =d.id and e.id=#{id} ;
+    </select>
+
+    <update id="updateStatus">
+        update Employee set status=#{status} where id = #{id} ;
+    </update>
+</mapper>

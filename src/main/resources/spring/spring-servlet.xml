@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+    <context:component-scan base-package="edu.csuft">
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
+    <mvc:annotation-driven>
+    <!--<mvc:message-converters>-->
+    <!--</mvc:message-converters>-->
+    </mvc:annotation-driven>
+
+    <!--文件上传id必须取名multipartResolver,注册文件上传解析器-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+<!--        最大上传大小-->
+        <property name="maxUploadSize" value="1024000"/>
+
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSizePerFile" value="1024000"/>
+    </bean>
+    <!--静态资源处理-->
+    <mvc:default-servlet-handler/>
+
+    <mvc:annotation-driven/>
+</beans>
